@@ -1,0 +1,26 @@
+name: Deploy Backend Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'  # Chỉ chạy khi folder backend thay đổi
+
+jobs:
+  web-deploy:
+    name: Deploy BE Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Sync Backend files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.BE_FTP_HOST }}
+          username: ${{ secrets.BE_FTP_USERNAME }}
+          password: ${{ secrets.BE_FTP_PASSWORD }}
+          local-dir: ./backend/      # Source: Thư mục backend
+          server-dir: ./api/         # Target: Ví dụ thư mục 'api' trên host BE
+          protocol: ftp 
+          security: loose

@@ -1,0 +1,27 @@
+name: Deploy Frontend Test
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'  # Chỉ chạy khi folder frontend thay đổi
+
+jobs:
+  web-deploy:
+    name: Deploy FE Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      # Bước này chỉ upload file, không cần build vì ta đang dùng file HTML tĩnh
+      - name: Sync Frontend files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FE_FTP_HOST }}
+          username: ${{ secrets.FE_FTP_USERNAME }}
+          password: ${{ secrets.FE_FTP_PASSWORD }}
+          local-dir: ./frontend/      # Source: Thư mục frontend
+          server-dir: ./public_html/  # Target: Thư mục gốc trên host FE
+          protocol: ftp 
+          security: loose
