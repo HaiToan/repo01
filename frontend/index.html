@@ -1,12 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <title>Quản Lý Sản Phẩm - FE</title>
 </head>
 <body>
-  <h1>Frontend Test Page - V1</h1>
-  <p>Deployed successfully via GitHub Actions.</p>
+    <h1>Quản Lý Sản Phẩm Đơn Giản</h1>
+    <p>Chức năng: Thêm Sản Phẩm (Gửi dữ liệu qua POST API)</p>
+    
+    <form id="productForm">
+        <label for="name">Tên Sản Phẩm:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        
+        <label for="price">Giá (VND):</label><br>
+        <input type="number" id="price" name="price" required><br><br>
+        
+        <button type="submit">Thêm Sản Phẩm Mới</button>
+    </form>
+    
+    <hr>
+    
+    <h2>Trạng thái API:</h2>
+    <div id="apiStatus">
+        // Thông báo kết quả sẽ hiển thị ở đây
+    </div>
+
+    <script>
+        // CHÚ Ý: CẬP NHẬT URL NÀY SAU KHI DEPLOY
+        // Ví dụ: 'https://api.be-domain.com/product_api.php'
+        const API_ENDPOINT = 'http://localhost/product_api.php'; 
+        
+        document.getElementById('productForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // Ngăn form submit theo cách truyền thống
+
+            const name = document.getElementById('name').value;
+            const price = document.getElementById('price').value;
+
+            const statusDiv = document.getElementById('apiStatus');
+            statusDiv.innerHTML = "Đang gửi dữ liệu quản lý...";
+
+            try {
+                const response = await fetch(API_ENDPOINT, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // Chuyển dữ liệu sang JSON để gửi đi
+                    body: JSON.stringify({ name: name, price: price })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.status === 'success') {
+                    statusDiv.innerHTML = `<p style="color: green;">✅ **Thành công:** ${result.message}</p>
+                                          <p>Sản phẩm đã xử lý: ${result.data.product_name} (${result.data.product_price} VND)</p>`;
+                } else {
+                    statusDiv.innerHTML = `<p style="color: red;">❌ **Lỗi:** ${result.message || 'Lỗi không xác định từ server.'}</p>`;
+                }
+
+            } catch (error) {
+                statusDiv.innerHTML = `<p style="color: red;">❌ **Lỗi kết nối:** Không thể gọi API. Kiểm tra lại URL và CORS.</p>`;
+                console.error("Lỗi:", error);
+            }
+        });
+    </script>
 </body>
 </html>

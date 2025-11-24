@@ -1,15 +1,15 @@
-name: Deploy Backend Test
+name: Deploy Backend (PHP)
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'backend/**'  # Chỉ chạy khi folder backend thay đổi
+      - 'backend/**' # Kích hoạt khi chỉ folder backend thay đổi
 
 jobs:
   web-deploy:
-    name: Deploy BE Test
+    name: Deploy BE via FTP
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -21,6 +21,9 @@ jobs:
           username: ${{ secrets.BE_FTP_USERNAME }}
           password: ${{ secrets.BE_FTP_PASSWORD }}
           local-dir: ./backend/      # Source: Thư mục backend
-          server-dir: ./api/         # Target: Ví dụ thư mục 'api' trên host BE
+          server-dir: ./api/         # Target: Thư mục chứa API trên host BE
           protocol: ftp 
           security: loose
+          exclude: |
+            **/.git*
+            **/.github*
