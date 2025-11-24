@@ -1,0 +1,1 @@
+<?php echo "Backend API Status: Running (V1)"; ?>
