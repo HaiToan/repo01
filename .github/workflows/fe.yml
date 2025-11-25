@@ -19,4 +19,5 @@ jobs:
           password: ${{ secrets.FE_FTP_PASSWORD }}
           local-dir: ./frontend/      # Lấy file từ thư mục frontend/
           server-dir: /www.testoss.somee.com/ # ĐƯỜNG DẪN ĐÍCH ĐÃ XÁC NHẬN
-          protocol: ftp                   # Giao thức bảo mật (để tối ưu kết nối)
+          protocol: ftp    
+          port: 21               # Giao thức bảo mật (để tối ưu kết nối)
