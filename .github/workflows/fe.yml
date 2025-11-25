@@ -2,25 +2,25 @@ name: Deploy FE
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
     paths:
-      - 'fe/**'
+      - "fe/**"
 
 jobs:
-  ftp-deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-      - name: Upload FE via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.4
+      - name: Deploy via FTP (No TLS)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FE_FTP_HOST }}
           username: ${{ secrets.FE_FTP_USER }}
           password: ${{ secrets.FE_FTP_PASS }}
           server-dir: ${{ secrets.FE_FTP_DIR }}
           local-dir: ./fe
-          
+          protocol: ftp
+          port: 21
+          security: none
