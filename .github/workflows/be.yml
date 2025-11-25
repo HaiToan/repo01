@@ -1,13 +1,13 @@
 # .github/workflows/be.yml
 
-name: Deploy Backend (PHP) via FTP
+name: Deploy Backend (PHP) via FTPS
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'backend/**' # Chỉ chạy khi có thay đổi trong thư mục backend/
+      - 'backend/**'
 
 jobs:
   deploy:
@@ -16,23 +16,23 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # --- Deploy to Hosting BE via FTP ---
       - name: FTP Deploy Backend
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
-          # Thư mục nguồn trong repository cần đẩy lên host
-          folder: backend
+          # THAY THẾ tham số CŨ (folder)
+          local-dir: backend
           
-          # Thông tin đăng nhập sử dụng Secrets mới của InfinityFree
+          # THAY THẾ tham số CŨ (server-directory)
+          server-dir: /htdocs/api/
+          
+          # Thông tin đăng nhập sử dụng Secrets mới của hosting
           server: ${{ secrets.BE_FTP_HOST }}
           username: ${{ secrets.BE_FTP_USERNAME }}
           password: ${{ secrets.BE_FTP_PASSWORD }}
           
-          # Đường dẫn trên host: Đặt API vào thư mục con api/
-          server-directory: /htdocs/api/
+          # Cấu hình kết nối an toàn (FTPS) để giải quyết lỗi ECONNREFUSED
+          protocol: ftps
+          port: 21
           
-          # Xóa các file cũ trên host mà không còn trong thư mục 'backend'
           dangerous-clean-slate: true
-          
-          # Loại bỏ các file git không cần thiết
           exclude: "**/.git* **/.git*"
