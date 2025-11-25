@@ -22,6 +22,6 @@ jobs:
           username: ${{ secrets.FE_FTP_USERNAME }}
           password: ${{ secrets.FE_FTP_PASSWORD }}
           local-dir: ./frontend/      # Source: Thư mục frontend
-          server-dir: ./public_html/  # Target: Thư mục gốc trên host FE
+          server-dir: ./htdocs/  # Target: Thư mục gốc trên host FE
           protocol: ftp 
           security: loose
