@@ -1,5 +1,5 @@
 
-name: Deploy Backend (PHP)
+name: Sync Backend files via FTP
 
 on:
   push:
