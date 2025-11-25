@@ -1,38 +1,73 @@
-# .github/workflows/fe.yml
+name: Deploy Frontend (HTML) via FTP
 
-name: Deploy Frontend (HTML) via FTPS
+
 
 on:
+
   push:
+
     branches:
+
       - main
+
     paths:
-      - 'frontend/**'
+
+      - 'frontend/**' # Chỉ chạy khi có thay đổi trong thư mục frontend/
+
+
 
 jobs:
+
   deploy:
+
     runs-on: ubuntu-latest
+
     steps:
+
       - name: Checkout Code
+
         uses: actions/checkout@v4
 
+
+
+      # --- Deploy to Hosting FE via FTP ---
+
       - name: FTP Deploy Frontend
+
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
+
         with:
-          # THAY THẾ tham số CŨ (folder)
-          local-dir: frontend 
-          
-          # THAY THẾ tham số CŨ (server-directory)
-          server-dir: /htdocs/
-          
-          # Thông tin đăng nhập sử dụng Secrets mới của hosting
+
+          # Thư mục nguồn cần đẩy (chứa index.html)
+
+          folder: frontend
+
+         
+
+          # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
+
           server: ${{ secrets.FE_FTP_HOST }}
+
           username: ${{ secrets.FE_FTP_USERNAME }}
+
           password: ${{ secrets.FE_FTP_PASSWORD }}
-          
-          # Cấu hình kết nối an toàn (FTPS) để giải quyết lỗi ECONNREFUSED
-          protocol: ftps 
-          port: 21
-          
+
+         
+
+          # Đường dẫn trên host mà bạn muốn upload vào (THAY THẾ đường dẫn này)
+
+          # Thường là thư mục gốc của domain (ví dụ: /public_html/ hoặc /)
+
+          server-directory: /www.testoss.somee.com/
+
+         
+
+          # Cẩn thận: Xóa các file cũ trên host không còn trong thư mục 'frontend'
+
           dangerous-clean-slate: true
+
+         
+
+          # Loại bỏ các file git không cần thiết
+
           exclude: "**/.git* **/.git*"
