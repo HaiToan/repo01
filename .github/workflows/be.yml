@@ -1,3 +1,5 @@
+# .github/workflows/be.yml
+
 name: Deploy Backend (PHP) via FTP
 
 on:
@@ -18,19 +20,18 @@ jobs:
       - name: FTP Deploy Backend
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
-          # Thư mục nguồn cần đẩy (chứa product_api.php)
+          # Thư mục nguồn trong repository cần đẩy lên host
           folder: backend
           
-          # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
+          # Thông tin đăng nhập sử dụng Secrets mới của InfinityFree
           server: ${{ secrets.BE_FTP_HOST }}
           username: ${{ secrets.BE_FTP_USERNAME }}
           password: ${{ secrets.BE_FTP_PASSWORD }}
           
-          # Đường dẫn trên host mà bạn muốn upload vào (THAY THẾ đường dẫn này)
-          # Thường là một thư mục riêng biệt cho API (ví dụ: /api/ hoặc /product-service/)
-          server-directory: www.apitestoss.somee.com/
+          # Đường dẫn trên host: Đặt API vào thư mục con api/
+          server-directory: /htdocs/api/
           
-          # Cẩn thận: Xóa các file cũ trên host không còn trong thư mục 'backend'
+          # Xóa các file cũ trên host mà không còn trong thư mục 'backend'
           dangerous-clean-slate: true
           
           # Loại bỏ các file git không cần thiết

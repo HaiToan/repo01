@@ -1,3 +1,5 @@
+# .github/workflows/fe.yml
+
 name: Deploy Frontend (HTML) via FTP
 
 on:
@@ -18,19 +20,18 @@ jobs:
       - name: FTP Deploy Frontend
         uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
-          # Thư mục nguồn cần đẩy (chứa index.html)
+          # Thư mục nguồn trong repository cần đẩy lên host
           folder: frontend
           
-          # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
+          # Thông tin đăng nhập sử dụng Secrets mới của InfinityFree
           server: ${{ secrets.FE_FTP_HOST }}
           username: ${{ secrets.FE_FTP_USERNAME }}
           password: ${{ secrets.FE_FTP_PASSWORD }}
           
-          # Đường dẫn trên host mà bạn muốn upload vào (THAY THẾ đường dẫn này)
-          # Thường là thư mục gốc của domain (ví dụ: /public_html/ hoặc /)
-          server-directory: www.testoss.somee.com/
+          # Đường dẫn chính xác trên Hosting cPanel (thường là htdocs)
+          server-directory: /htdocs/
           
-          # Cẩn thận: Xóa các file cũ trên host không còn trong thư mục 'frontend'
+          # Xóa các file cũ trên host mà không còn trong thư mục 'frontend'
           dangerous-clean-slate: true
           
           # Loại bỏ các file git không cần thiết
