@@ -1,67 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Quản Lý Sản Phẩm - FE</title>
+    <title>Frontend HTML/PHP Demo</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        h1 { color: #3366cc; }
+    </style>
 </head>
 <body>
-    <h1>Quản Lý Sản Phẩm Đơn Giản</h1>
-    <p>Chức năng: Thêm Sản Phẩm (Gửi dữ liệu qua POST API)</p>
-    
-    <form id="productForm">
-        <label for="name">Tên Sản Phẩm:</label><br>
-        <input type="text" id="name" name="name" required><br><br>
-        
-        <label for="price">Giá (VND):</label><br>
-        <input type="number" id="price" name="price" required><br><br>
-        
-        <button type="submit">Thêm Sản Phẩm Mới</button>
-    </form>
-    
-    <hr>
-    
-    <h2>Trạng thái API:</h2>
-    <div id="apiStatus">
-        Chưa có dữ liệu.
-    </div>
-
-    <script>
-        // ĐÂY LÀ URL ĐÃ SỬA DỤNG DOMAIN MỚI NHẤT VÀ API CHÍNH XÁC
-        const API_ENDPOINT = 'https://apitestoss.rf.gd/product_api.php'; 
-        
-        document.getElementById('productForm').addEventListener('submit', async function(event) {
-            event.preventDefault(); // Ngăn form submit theo cách truyền thống
-
-            const name = document.getElementById('name').value;
-            const price = document.getElementById('price').value;
-
-            const statusDiv = document.getElementById('apiStatus');
-            statusDiv.innerHTML = "Đang gửi dữ liệu quản lý...";
-
-            try {
-                const response = await fetch(API_ENDPOINT, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    // Chuyển dữ liệu sang JSON để gửi đi
-                    body: JSON.stringify({ name: name, price: price })
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.status === 'success') {
-                    statusDiv.innerHTML = `<p style="color: green;">✅ **Thành công:** ${result.message}</p>
-                                          <p>Sản phẩm đã xử lý: ${result.data.product_name} (${result.data.product_price} VND)</p>`;
-                } else {
-                    statusDiv.innerHTML = `<p style="color: red;">❌ **Lỗi:** ${result.message || 'Lỗi không xác định từ server.'}</p>`;
-                }
-
-            } catch (error) {
-                statusDiv.innerHTML = `<p style="color: red;">❌ **Lỗi kết nối:** Không thể gọi API. Kiểm tra lại URL và CORS.</p>`;
-                console.error("Lỗi:", error);
-            }
-        });
-    </script>
+    <h1>Chào mừng đến với Frontend của tôi!</h1>
+    <p>Đây là trang web tĩnh (hoặc bán tĩnh) được triển khai lên Hosting FE.</p>
+    <p>Để xem trạng thái Backend, truy cập: 
+      <a href="/api/status.php" target="_blank">Xem API Status</a>
+    </p>
+    <footer><small>Phiên bản FE 1.0</small></footer>
 </body>
 </html>

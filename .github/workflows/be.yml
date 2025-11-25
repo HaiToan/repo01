@@ -1,26 +1,37 @@
-name: Deploy BE (PHP)
+name: Deploy Backend (PHP) via FTP
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
     paths:
-      - "backend/**"
+      - 'backend/**' # Chỉ chạy khi có thay đổi trong thư mục backend/
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Deploy PHP Backend via FTP (No TLS)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # --- Deploy to Hosting BE via FTP ---
+      - name: FTP Deploy Backend
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
+          # Thư mục nguồn cần đẩy (chứa product_api.php)
+          folder: backend
+          
+          # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
           server: ${{ secrets.BE_FTP_HOST }}
-          username: ${{ secrets.BE_FTP_USER }}
-          password: ${{ secrets.BE_FTP_PASS }}
-          local-dir: ./backend
-          protocol: ftp
-          port: 21
-          security: none
+          username: ${{ secrets.BE_FTP_USERNAME }}
+          password: ${{ secrets.BE_FTP_PASSWORD }}
+          
+          # Đường dẫn trên host mà bạn muốn upload vào (THAY THẾ đường dẫn này)
+          # Thường là một thư mục riêng biệt cho API (ví dụ: /api/ hoặc /product-service/)
+          server-directory: /api/
+          
+          # Cẩn thận: Xóa các file cũ trên host không còn trong thư mục 'backend'
+          dangerous-clean-slate: true
+          
+          # Loại bỏ các file git không cần thiết
+          exclude: "**/.git* **/.git*"

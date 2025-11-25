@@ -1,25 +1,37 @@
-name: Deploy FE
+name: Deploy Frontend (HTML) via FTP
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
     paths:
-      - "frontend/**"
+      - 'frontend/**' # Chỉ chạy khi có thay đổi trong thư mục frontend/
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-      - name: Deploy Frontend via FTP (No TLS)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # --- Deploy to Hosting FE via FTP ---
+      - name: FTP Deploy Frontend
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.0
         with:
+          # Thư mục nguồn cần đẩy (chứa index.html)
+          folder: frontend
+          
+          # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
           server: ${{ secrets.FE_FTP_HOST }}
-          username: ${{ secrets.FE_FTP_USER }}
-          password: ${{ secrets.FE_FTP_PASS }}
-          local-dir: ./frontend
-          protocol: ftp
-          port: 21
-          security: none
+          username: ${{ secrets.FE_FTP_USERNAME }}
+          password: ${{ secrets.FE_FTP_PASSWORD }}
+          
+          # Đường dẫn trên host mà bạn muốn upload vào (THAY THẾ đường dẫn này)
+          # Thường là thư mục gốc của domain (ví dụ: /public_html/ hoặc /)
+          server-directory: /
+          
+          # Cẩn thận: Xóa các file cũ trên host không còn trong thư mục 'frontend'
+          dangerous-clean-slate: true
+          
+          # Loại bỏ các file git không cần thiết
+          exclude: "**/.git* **/.git*"
