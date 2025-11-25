@@ -2,7 +2,7 @@ name: Deploy FE
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     paths:
       - "fe/**"
 
@@ -19,7 +19,6 @@ jobs:
           server: ${{ secrets.FE_FTP_HOST }}
           username: ${{ secrets.FE_FTP_USER }}
           password: ${{ secrets.FE_FTP_PASS }}
-          server-dir: ${{ secrets.FE_FTP_DIR }}
           local-dir: ./fe
           protocol: ftp
           port: 21

@@ -1,4 +1,4 @@
-name: Deploy BE
+name: Deploy BE (PHP)
 
 on:
   push:
@@ -11,15 +11,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Deploy Backend via FTP (No TLS)
+      - name: Deploy PHP Backend via FTP (No TLS)
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.BE_FTP_HOST }}
           username: ${{ secrets.BE_FTP_USER }}
           password: ${{ secrets.BE_FTP_PASS }}
-          server-dir: ${{ secrets.BE_FTP_DIR }}
           local-dir: ./be
           protocol: ftp
           port: 21
