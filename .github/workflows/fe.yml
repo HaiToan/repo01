@@ -58,7 +58,7 @@ jobs:
 
           # Thường là thư mục gốc của domain (ví dụ: /public_html/ hoặc /)
 
-          server-directory: /www.testoss.somee.com/
+          server-directory: www.testoss.somee.com/
 
          
 

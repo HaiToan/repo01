@@ -58,7 +58,7 @@ jobs:
 
           # Thường là một thư mục riêng biệt cho API (ví dụ: /api/ hoặc /product-service/)
 
-          server-directory: /www.apitestoss.somee.com/
+          server-directory: www.apitestoss.somee.com/
 
          
 
