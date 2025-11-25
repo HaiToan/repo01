@@ -20,7 +20,6 @@ jobs:
           local-dir: ./backend/
           server-dir: /apitestoss.somee.com/ # ĐƯỜNG DẪN ĐÍCH ĐÃ XÁC NHẬN
           protocol: ftp
-          security: loose
           exclude: |
             **/.git*
             .env
