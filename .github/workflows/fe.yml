@@ -1,0 +1,22 @@
+name: Deploy Frontend (HTML)
+
+on:
+  push:
+    branches: [main]
+    paths: ['frontend/**']
+
+jobs:
+  web-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Sync Frontend files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FE_FTP_HOST }}
+          username: ${{ secrets.FE_FTP_USERNAME }}
+          password: ${{ secrets.FE_FTP_PASSWORD }}
+          local-dir: ./frontend/
+          server-dir: /htdocs/    # CHÍNH XÁC: Đẩy vào thư mục gốc của domain chính
+          protocol: ftps          # Sử dụng FTPS để cải thiện kết nối
+          security: loose
