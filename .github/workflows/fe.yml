@@ -28,7 +28,7 @@ jobs:
           
           # Đường dẫn trên host mà bạn muốn upload vào (THAY THẾ đường dẫn này)
           # Thường là thư mục gốc của domain (ví dụ: /public_html/ hoặc /)
-          server-directory: /
+          server-directory: /www.testoss.somee.com/
           
           # Cẩn thận: Xóa các file cũ trên host không còn trong thư mục 'frontend'
           dangerous-clean-slate: true
