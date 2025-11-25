@@ -1,15 +1,28 @@
 <?php
-// Cấu hình CORS (RẤT QUAN TRỌNG cho giao tiếp FE-BE)
+// Cấu hình CORS (RẤT QUAN TRỌNG)
+// 1. Cho phép tất cả các domain truy cập (vì đang test)
 header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST"); // Cho phép phương thức POST
-header("Access-Control-Max-Age: 3600"); 
+// 2. Cho phép các phương thức được dùng
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS"); 
+// 3. Cho phép các header tùy chỉnh (như Content-Type)
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+// 4. Định dạng trả về
+header("Content-Type: application/json; charset=UTF-8");
+
+// Xử lý yêu cầu kiểm tra (Preflight Request)
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit(); // Kết thúc ở đây, không xử lý POST
+}
+
+// ----------------------------------------------------
+// BẮT ĐẦU XỬ LÝ POST
+// ----------------------------------------------------
 
 // Nhận dữ liệu JSON từ Frontend
 $data = json_decode(file_get_contents("php://input"));
 
-// Kiểm tra phương thức và dữ liệu
+// Kiểm tra phương thức
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(array("status" => "error", "message" => "Chỉ chấp nhận phương thức POST."));
