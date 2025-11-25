@@ -1,23 +1,26 @@
-name: Deploy Frontend (HTML)
+name: Deploy FE
 
 on:
   push:
-    branches: [main]
-    paths: ['frontend/**'] # Chỉ chạy khi Frontend thay đổi
+    branches:
+      - main
+    paths:
+      - 'fe/**'
 
 jobs:
-  web-deploy:
+  ftp-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Sync Frontend files via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Upload FE via FTP
+        uses: SamKirkland/FTP-Deploy-Action@4.3.4
         with:
           server: ${{ secrets.FE_FTP_HOST }}
-          username: ${{ secrets.FE_FTP_USERNAME }}
-          password: ${{ secrets.FE_FTP_PASSWORD }}
-          local-dir: ./frontend/      # Lấy file từ thư mục frontend/
-          server-dir: /www.testoss.somee.com/ # ĐƯỜNG DẪN ĐÍCH ĐÃ XÁC NHẬN
-          protocol: ftp    
-          port: 21               # Giao thức bảo mật (để tối ưu kết nối)
+          username: ${{ secrets.FE_FTP_USER }}
+          password: ${{ secrets.FE_FTP_PASS }}
+          server-dir: ${{ secrets.FE_FTP_DIR }}
+          local-dir: ./fe
+          
