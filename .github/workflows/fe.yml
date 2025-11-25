@@ -19,7 +19,7 @@ jobs:
           server: ${{ secrets.FE_FTP_HOST }}
           username: ${{ secrets.FE_FTP_USER }}
           password: ${{ secrets.FE_FTP_PASS }}
-          local-dir: ./fe
+          local-dir: ./frontend
           protocol: ftp
           port: 21
           security: none

@@ -20,7 +20,7 @@ jobs:
           server: ${{ secrets.BE_FTP_HOST }}
           username: ${{ secrets.BE_FTP_USER }}
           password: ${{ secrets.BE_FTP_PASS }}
-          local-dir: ./be
+          local-dir: ./backend
           protocol: ftp
           port: 21
           security: none
