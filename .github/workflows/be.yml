@@ -1,6 +1,7 @@
 name: Deploy Backend (PHP) via FTP
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -19,8 +20,8 @@ jobs:
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6
         with:
           # Thư mục nguồn cần đẩy (chứa product_api.php)
-          local-dir: backend
-          server-dir: www.apitestoss.somee.com
+          local-dir: backend/
+          server-dir: www.apitestoss.somee.com/
 
           # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
           server: ${{ secrets.BE_FTP_HOST }}

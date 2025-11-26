@@ -24,9 +24,9 @@ jobs:
           server-dir: www.testoss.somee.com/
 
           # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
-          server: ${{ secrets.BE_FTP_HOST }}
-          username: ${{ secrets.BE_FTP_USERNAME }}
-          password: ${{ secrets.BE_FTP_PASSWORD }}
+          server: ${{ secrets.FE_FTP_HOST }}
+          username: ${{ secrets.FE_FTP_USERNAME }}
+          password: ${{ secrets.FE_FTP_PASSWORD }}
 
           # Cẩn thận: Xóa các file cũ trên host không còn trong thư mục 'backend'
           dangerous-clean-slate: true
