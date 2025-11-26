@@ -1,11 +1,12 @@
 name: Deploy Backend (PHP) via FTP
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
     paths:
-      - 'frontend/**' # Chỉ chạy khi có thay đổi trong thư mục frontend/
+      - "frontend/**" # Chỉ chạy khi có thay đổi trong thư mục frontend/
 
 jobs:
   deploy:
