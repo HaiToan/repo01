@@ -42,6 +42,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
+            min-height: 100px; /* Đảm bảo khu vực list không bị trống khi đang tải */
         }
 
         /* Thẻ sản phẩm */
@@ -76,6 +77,7 @@
 
         /* Lỗi kết nối */
         .error-message {
+            grid-column: 1 / -1; /* Chiếm toàn bộ chiều rộng của grid */
             text-align: center;
             color: #dc3545;
             padding: 20px;
@@ -91,12 +93,13 @@
     <div class="container">
         <h1>📦 Danh Sách Sản Phẩm (CI/CD Test)</h1>
         <div id="list">
-            <p style="text-align: center;">Đang tải dữ liệu...</p>
+            <p style="text-align: center; grid-column: 1 / -1; color: #555;">Đang tải dữ liệu...</p>
         </div>
     </div>
 
     <script>
-        const backendUrl = "https://testoss.rf.gd/index.php"; // URL Backend PHP mới
+        // Sửa lỗi HTTPS/HTTP: Chuyển sang HTTP để khớp với khả năng của hosting miễn phí
+        const backendUrl = "http://testoss.rf.gd/index.php"; 
 
         fetch(backendUrl)
             .then(res => {
@@ -130,8 +133,8 @@
                 // Hiển thị thông báo lỗi thân thiện
                 document.getElementById("list").innerHTML = 
                     `<div class="error-message">
-                        ❌ Không kết nối được Backend hoặc xảy ra lỗi dữ lý. 
-                        Vui lòng kiểm tra Console (F12) để xem chi tiết lỗi.
+                        ❌ Không kết nối được Backend hoặc xảy ra lỗi xử lý. 
+                        Vui lòng kiểm tra Console (F12) để xem chi tiết lỗi: ${err.message}.
                     </div>`;
             });
     </script>

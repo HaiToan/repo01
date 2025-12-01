@@ -1,19 +1,24 @@
 <?php
-// Tên miền Frontend (FE) của bạn
-$allowed_origin = 'https://testoss.somee.com';
+// --- THAY THẾ TOÀN BỘ CODE PHP HIỆN TẠI BẰNG ĐOẠN NÀY ---
+
+// Tên miền Frontend (FE) được phép
+$allowed_origins = [
+    'https://testoss.somee.com',
+    'http://testoss.somee.com' // Thêm HTTP để đề phòng
+];
 
 // Lấy Origin từ request
 $request_origin = isset($_SERVER['HTTP_ORIGIN']) ? $_SERVER['HTTP_ORIGIN'] : '';
 
-// 1. Xử lý CORS: Chỉ cho phép tên miền FE truy cập
-// Thêm cả http:// và https:// để đề phòng môi trường rf.gd không có HTTPS
-if ($request_origin === 'http://testoss.somee.com' || $request_origin === $allowed_origin) {
+// 1. Kiểm tra nếu origin request nằm trong danh sách cho phép
+if (in_array($request_origin, $allowed_origins)) {
+    // Nếu khớp, gửi header cho phép truy cập TRỞ LẠI chính origin đó
     header("Access-Control-Allow-Origin: $request_origin");
     header("Access-Control-Allow-Methods: GET");
     header("Access-Control-Allow-Headers: Content-Type");
 }
 
-// 2. Định nghĩa dữ liệu sản phẩm (Dữ liệu mẫu)
+// 2. Định nghĩa dữ liệu sản phẩm (Giữ nguyên)
 $products = [
     [ 'id' => 1, 'name' => 'Sản phẩm 1', 'price' => 15000 ],
     [ 'id' => 2, 'name' => 'Sản phẩm 2', 'price' => 25000 ],
