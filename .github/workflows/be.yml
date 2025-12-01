@@ -14,7 +14,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-# ⚡ BƯỚC MỚI 1: Thiết lập môi trường Node.js
+
+    # ⚡ BƯỚC MỚI 1: Thiết lập môi trường Node.js
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
         with:
