@@ -1,27 +1,52 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Frontend Demo - Đã Triển Khai</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 30px; line-height: 1.6; background-color: #f4f4f9; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        h1 { color: #007bff; border-bottom: 2px solid #007bff; padding-bottom: 10px; }
-        a { color: #28a745; text-decoration: none; font-weight: bold; }
-        a:hover { text-decoration: underline; }
-        .status-box { margin-top: 20px; padding: 15px; background-color: #e9ecef; border-radius: 5px; }
-    </style>
+  <meta charset="UTF-8">
+  <title>Quản Lý Công Việc</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f4f4;
+      padding: 40px;
+    }
+    h1 {
+      text-align: center;
+    }
+    .task {
+      background: white;
+      padding: 12px;
+      margin: 10px auto;
+      width: 400px;
+      border-radius: 6px;
+      box-shadow: 0 0 5px #ccc;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>👋 Chào mừng đến với Trang Frontend!</h1>
-        <p>Đây là tệp **index.html** được triển khai thành công trên Frontend Hosting.</p>
-        <p>Việc hiển thị trang này xác nhận lỗi **403 Forbidden** đã được khắc phục cho miền Frontend.</p>
-        <div class="status-box">
-            <p>Để kiểm tra **Backend API** (NodeJS), vui lòng nhấp vào liên kết sau. Nếu bạn thấy JSON, nghĩa là NODEJS đã chạy thành công!</p>
-            <p><strong><a href="http://apitestoss.somee.com/index.js" target="_blank">🔗 Xem Trạng thái Backend API</a></strong></p>
-        </div>
-    </div>
+
+  <h1>Danh Sách Công Việc</h1>
+  <div id="task-list"></div>
+
+  <script>
+    fetch("http://localhost:3000/api/tasks")
+      .then(response => response.json())
+      .then(data => {
+        const list = document.getElementById("task-list");
+
+        data.forEach(task => {
+          const div = document.createElement("div");
+          div.className = "task";
+          div.innerHTML = `
+            <b>${task.title}</b><br>
+            Trạng thái: ${task.status}
+          `;
+          list.appendChild(div);
+        });
+      })
+      .catch(error => {
+        console.error("Lỗi khi lấy dữ liệu:", error);
+      });
+  </script>
+
 </body>
 </html>

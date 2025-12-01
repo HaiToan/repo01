@@ -1,34 +1,26 @@
-// 1. Nhập module 'http' để tạo máy chủ (server)
-const http = require('http');
+const express = require("express");
+const app = express();
+const PORT = 3000;
 
-// 2. Định nghĩa cổng (port) mà server sẽ lắng nghe
-const port = process.env.PORT || 3000; // Heroku thường sử dụng biến môi trường PORT
+// Dữ liệu mẫu (giả lập database)
+const tasks = [
+  { id: 1, title: "Làm báo cáo", status: "Chưa hoàn thành" },
+  { id: 2, title: "Học Node.js", status: "Đang làm" },
+  { id: 3, title: "Nộp đồ án", status: "Hoàn thành" },
+];
 
-// 3. Khai báo mảng dữ liệu phản hồi (JSON object)
-const responseData = {
-    service: 'Backend API (Node.js)',
-    status: 'SUCCESS',
-    code: 200, // Mã HTTP thành công
-    timestamp: new Date().toISOString().slice(0, 19).replace('T', ' '), // Định dạng Y-m-d H:i:s
-    message: 'Dịch vụ API Backend Node.js đã được triển khai và chạy thành công!'
-};
-
-// 4. Chuyển đối tượng JavaScript thành chuỗi JSON
-const jsonResponse = JSON.stringify(responseData);
-
-// 5. Tạo máy chủ HTTP
-const server = http.createServer((req, res) => {
-    // 6. Thiết lập Header để thông báo phản hồi là JSON
-    res.setHeader('Content-Type', 'application/json');
-    
-    // 7. Thiết lập mã trạng thái HTTP (200 OK)
-    res.statusCode = 200;
-
-    // 8. Gửi phản hồi JSON và kết thúc request
-    res.end(jsonResponse);
+// Cho phép Frontend gọi API
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
 });
 
-// 9. Lắng nghe yêu cầu trên cổng đã định nghĩa
-server.listen(port, () => {
-    console.log(`Server Node.js đang chạy tại cổng: ${port}`);
+// API lấy danh sách công việc
+app.get("/api/tasks", (req, res) => {
+  res.json(tasks);
+});
+
+// Chạy server
+app.listen(PORT, () => {
+  console.log(`Server đang chạy tại http://localhost:${PORT}`);
 });
