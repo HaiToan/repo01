@@ -1,26 +1,30 @@
 const express = require("express");
 const app = express();
-const PORT = 3000;
 
-// Dữ liệu mẫu (giả lập database)
-const tasks = [
-  { id: 1, title: "Làm báo cáo", status: "Chưa hoàn thành" },
-  { id: 2, title: "Học Node.js", status: "Đang làm" },
-  { id: 3, title: "Nộp đồ án", status: "Hoàn thành" },
+// Somee dùng IIS + Node nên thường không dùng PORT 3000
+const PORT = process.env.PORT || 80;
+
+// Dữ liệu mẫu test
+const products = [
+  { id: 1, name: "Sản phẩm 1", price: 15000 },
+  { id: 2, name: "Sản phẩm 2", price: 25000 },
+  { id: 3, name: "Sản phẩm 3", price: 35000 }
 ];
 
-// Cho phép Frontend gọi API
+// Fix CORS cho frontend testoss.somee.com
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   next();
 });
 
-// API lấy danh sách công việc
-app.get("/api/tasks", (req, res) => {
-  res.json(tasks);
+// API
+app.get("/api/products", (req, res) => {
+  res.json(products);
 });
 
-// Chạy server
+// Start server
 app.listen(PORT, () => {
-  console.log(`Server đang chạy tại http://localhost:${PORT}`);
+  console.log("Backend running at port " + PORT);
 });
