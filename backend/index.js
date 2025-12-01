@@ -1,27 +1,31 @@
+// Bước 1: Import các thư viện cần thiết
 const express = require("express");
-const cors = require("cors"); // Thêm thư viện cors
+const cors = require("cors"); 
 const app = express();
 
-const PORT = process.env.PORT || 80;
-
-// Dữ liệu mẫu test
-const products = [
-  { id: 1, name: "Sản phẩm 1", price: 15000 },
-  { id: 2, name: "Sản phẩm 2", price: 25000 },
-  { id: 3, name: "Sản phẩm 3", price: 35000 }
-];
-
-// Thay thế CORS thủ công bằng thư viện chuẩn, chỉ cho phép FE
+// Bước 2: Thiết lập CORS (BẮT BUỘC)
+// Chỉ cho phép tên miền Frontend truy cập API này
 app.use(cors({
-    origin: 'https://testoss.somee.com' // Chỉ cho phép tên miền FE của bạn
+    origin: 'https://testoss.somee.com' // Đảm bảo sử dụng tên miền FE chính xác
 }));
 
-// API
+// Bước 3: Định nghĩa Port (Sử dụng biến môi trường của Somee/IIS)
+const PORT = process.env.PORT || 80;
+
+// Bước 4: Dữ liệu mẫu test
+const products = [
+    { id: 1, name: "Sản phẩm 1", price: 15000 },
+    { id: 2, name: "Sản phẩm 2", price: 25000 },
+    { id: 3, name: "Sản phẩm 3", price: 35000 }
+];
+
+// Bước 5: Định nghĩa API Endpoint
 app.get("/api/products", (req, res) => {
-  res.json(products);
+    // Trả về dữ liệu JSON
+    res.json(products);
 });
 
-// Start server
+// Bước 6: Khởi động Server
 app.listen(PORT, () => {
-  console.log("Backend running at port " + PORT);
+    console.log(`Backend running at port ${PORT}`);
 });

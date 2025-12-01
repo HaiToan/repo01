@@ -1,4 +1,4 @@
-name: Deploy Backend (PHP) via FTP
+name: Deploy Backend via FTP
 
 on:
   workflow_dispatch:
@@ -14,7 +14,17 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+# ⚡ BƯỚC MỚI 1: Thiết lập môi trường Node.js
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18' # Hoặc phiên bản Node.js bạn đang dùng
 
+      # ⚡ BƯỚC MỚI 2: Cài đặt Dependencies (Tạo node_modules)
+      - name: Install Dependencies
+        run: |
+          cd backend/
+          npm install --production # Chạy lệnh cài đặt trong thư mục backend/
       # --- Deploy to Hosting BE via FTP ---
       - name: FTP Deploy Backend
         uses: SamKirkland/FTP-Deploy-Action@v4.3.6

@@ -1,4 +1,4 @@
-name: Deploy Frontend (PHP) via FTP
+name: Deploy Frontend via FTP
 
 on:
   workflow_dispatch:
