@@ -1,55 +1,140 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Test CI/CD FE - BE</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: #f2f2f2;
-      padding: 40px;
-    }
-    h1 {
-      text-align: center;
-    }
-    .product {
-      background: #fff;
-      width: 300px;
-      margin: 10px auto;
-      padding: 12px;
-      border-radius: 6px;
-      box-shadow: 0 0 5px #ccc;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Danh Sách Sản Phẩm - CI/CD Test</title>
+    
+    <style>
+        /* CSS Reset cơ bản và font chữ */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eef2f7;
+            padding: 20px;
+            color: #333;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Container chính */
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+            font-size: 2.2em;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+
+        /* Khu vực danh sách sản phẩm */
+        #list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        /* Thẻ sản phẩm */
+        .product {
+            background: #ffffff;
+            border: 1px solid #dee2e6;
+            padding: 18px;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #212529;
+            margin-bottom: 8px;
+        }
+
+        .product-price {
+            font-size: 1.1em;
+            color: #dc3545; /* Màu đỏ cho giá */
+            font-weight: 600;
+        }
+
+        /* Lỗi kết nối */
+        .error-message {
+            text-align: center;
+            color: #dc3545;
+            padding: 20px;
+            border: 1px solid #dc3545;
+            background-color: #f8d7da;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
-  <h1>Danh sách sản phẩm (Test Deploy)</h1>
-  <div id="list"></div>
+    <div class="container">
+        <h1>📦 Danh Sách Sản Phẩm (CI/CD Test)</h1>
+        <div id="list">
+            <p style="text-align: center;">Đang tải dữ liệu...</p>
+        </div>
+    </div>
 
-  <script>
-    // GỌI ĐÚNG BACKEND CỦA BẠN
-    fetch("https://apitestoss.somee.com/api/products")
-      .then(res => res.json())
-      .then(data => {
-        const list = document.getElementById("list");
+    <script>
+        const backendUrl = "https://testoss.rf.gd/index.php"; // URL Backend PHP mới
 
-        data.forEach(p => {
-          const div = document.createElement("div");
-          div.className = "product";
-          div.innerHTML = `
-            <b>${p.name}</b><br>
-            Giá: ${p.price.toLocaleString()} VNĐ
-          `;
-          list.appendChild(div);
-        });
-      })
-      .catch(err => {
-        document.getElementById("list").innerHTML =
-          "Không kết nối được Backend!";
-        console.log(err);
-      });
-  </script>
+        fetch(backendUrl)
+            .then(res => {
+                if (!res.ok) {
+                    // Xử lý lỗi HTTP (ví dụ: 404, 500)
+                    throw new Error(`Lỗi HTTP: ${res.status}`);
+                }
+                return res.json();
+            })
+            .then(data => {
+                const list = document.getElementById("list");
+                list.innerHTML = ''; // Xóa thông báo "Đang tải"
+                
+                if (data.length === 0) {
+                    list.innerHTML = '<p class="error-message" style="color: #007bff; background-color: #e0f7ff;">Không tìm thấy sản phẩm nào trong cơ sở dữ liệu.</p>';
+                    return;
+                }
+
+                data.forEach(p => {
+                    const div = document.createElement("div");
+                    div.className = "product";
+                    div.innerHTML = `
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-price">${p.price.toLocaleString('vi-VN')} VNĐ</div>
+                    `;
+                    list.appendChild(div);
+                });
+            })
+            .catch(err => {
+                console.error("Lỗi kết nối hoặc xử lý dữ liệu:", err);
+                // Hiển thị thông báo lỗi thân thiện
+                document.getElementById("list").innerHTML = 
+                    `<div class="error-message">
+                        ❌ Không kết nối được Backend hoặc xảy ra lỗi dữ lý. 
+                        Vui lòng kiểm tra Console (F12) để xem chi tiết lỗi.
+                    </div>`;
+            });
+    </script>
 
 </body>
 </html>
