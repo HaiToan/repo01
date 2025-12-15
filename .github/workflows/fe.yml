@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - "frontend/**" # Chỉ chạy khi có thay đổi trong thư mục frontend/
+      - "frontend/**" 
 
 jobs:
   deploy:
