@@ -21,7 +21,7 @@ jobs:
         with:
           # Thư mục nguồn cần đẩy (chứa product_api.php)
           local-dir: frontend/
-          server-dir: www.testoss.somee.com/
+          server-dir: ./
 
           # Thông tin đăng nhập sử dụng Secrets bạn đã tạo
           server: ${{ secrets.FE_FTP_HOST }}
